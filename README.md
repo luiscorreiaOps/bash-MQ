@@ -15,7 +15,7 @@ Health Check
 GET /health
 Retorna um JSON básico indicando que o servidor está saudável.
 
-Criar fila
+Criar filas
 POST /queue/{queueName}
 Cria uma fila no diretório configurado.
 
@@ -32,7 +32,7 @@ Receber mensagem
 GET /queue/{queueName}/receive
 Seleciona a próxima mensagem com status available, marca como processing e retorna seu JSON.
 
-Visualizar próxima mensagem (peek)
+Visualizar proxima
 GET /queue/{queueName}/peek
 Retorna a próxima mensagem disponível sem modificar seu status.
 
@@ -64,7 +64,7 @@ Inicialização
 Use o script:
 
 ./start-sqs.sh
-Ele detecta o ambiente, configura diretórios, prepara variáveis e inicia o servidor via socat.
+Ele detecta o ambiente, configura diretorios, prepara variaveis.
 
 Logs
 Gerados em mini-sqs.log (local) ou no diretório configurado via variável de ambiente.
