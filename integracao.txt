@@ -1,0 +1,50 @@
+BASH-MQ - GUIA DE INTEGRAÇÃO
+
+ENDPOINTS
+POST   /queue/{name}                    - Criar fila
+GET    /queues                          - Listar filas
+POST   /queue/{name}/send               - Enviar mensagem (body: JSON)
+GET    /queue/{name}/receive            - Receber e marcar como processing
+GET    /queue/{name}/peek               - Ver próxima sem marcar
+DELETE /queue/{name}/message/{id}       - Deletar mensagem
+GET    /queue/{name}/stats              - Estatísticas (total, available, processing)
+GET    /health                          - Health check
+
+RESPOSTA PADRÃO
+Todas retornam JSON. Mensagens têm: id, timestamp, body, status (available/processing)
+
+EXEMPLO PYTHON
+import requests
+import json
+
+BASE_URL = "http://localhost:8080"
+
+# Criar fila
+requests.post(f"{BASE_URL}/queue/my-queue")
+
+# Enviar
+requests.post(f"{BASE_URL}/queue/my-queue/send",
+              json={"data": "value"})
+
+# Receber
+msg = requests.get(f"{BASE_URL}/queue/my-queue/receive").json()
+msg_id = msg.get("id")
+
+# Processar...
+
+# Deletar
+requests.delete(f"{BASE_URL}/queue/my-queue/message/{msg_id}")
+
+DOCKER
+
+docker run -d -p 8080:8080 -v bash-mq-data:/data rickdevops/bash-mq:latest
+
+KUBERNETES
+kubectl apply -f deployment.yaml
+
+CARACTERISTICAS
+- Persistência em arquivo
+- Concorrência com flock
+- Sem dependências externas (só Bash)
+- Leve (~50MB Docker)
+- Health check automático

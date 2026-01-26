@@ -44,27 +44,6 @@ Estatisticas
 GET /queue/{queueName}/stats
 Retorna contagem total, disponíveis e em processamento.
 
-Estrutura das mensagens
-Cada linha do arquivo .q representa uma mensagem JSON com os campos:
-
-id
-timestamp
-body
-status
-Exemplo:
-
-{"id":"123","timestamp":"2026-01-20T10:00:00Z","body":"...","status":"available"}
-Requisitos
-bash
-jq
-socat
-grep, sed, coreutils
-flock (via util-linux)
-Inicialização
-Use o script:
-
-./start-sqs.sh
-Ele detecta o ambiente, configura diretorios, prepara variaveis.
 
 Logs
 Gerados em mini-sqs.log (local) ou no diretório configurado via variável de ambiente.
@@ -73,3 +52,13 @@ Diretorios
 QUEUE_DIR: local onde as filas são armazenadas
 LOG_FILE: arquivo de log
 Para persistencia cada fila é um arquivo.
+
+Use o script:
+./start-sqs.sh
+Ele detecta o ambiente, configura diretorios, prepara variaveis.
+
+# Valide as funcionalidades
+
+./test.sh
+
+![MQ run](image.png)

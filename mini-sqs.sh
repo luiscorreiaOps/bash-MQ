@@ -130,12 +130,17 @@ queue_stats() {
 
         local total available processing
 
-        # tratamento espacos em branco
-        total=$(wc -l < "$qfile" | tr -d ' ')
-        available=$(grep -c '"status":"available"' "$qfile" 2>/dev/null || echo 0)
-        processing=$(grep -c '"status":"processing"' "$qfile" 2>/dev/null || echo 0)
+        # apnas num
+        total=$(wc -l < "$qfile" 2>/dev/null | head -n1 | tr -d ' \t\n\r')
+        available=$(grep -c '"status":"available"' "$qfile" 2>/dev/null | head -n1 | tr -d ' \t\n\r')
+        processing=$(grep -c '"status":"processing"' "$qfile" 2>/dev/null | head -n1 | tr -d ' \t\n\r')
 
-        printf '{"queue":"%s","total":%d,"available":%d,"processing":%d}\n' \
+        # Fallback 0/null
+        total=${total:-0}
+        available=${available:-0}
+        processing=${processing:-0}
+
+        printf '{"queue":"%s","total":%s,"available":%s,"processing":%s}\n' \
             "$queue" "$total" "$available" "$processing"
     ) 200>"$qfile.lock"
 }
@@ -218,7 +223,7 @@ process_request() {
 }
 
 handle_connection() {
-    # Não deixe erro de leitura matar o processo à toa
+
     if ! read -r request_line; then
         return 0
     fi
@@ -227,7 +232,6 @@ handle_connection() {
     path=$(echo "$request_line" | awk '{print $2}')
 
     content_length=0
-    # Ler cabeçalhos HTTP até linha em branco
     while IFS=$'\r' read -r header; do
         header=$(echo "$header" | tr -d '\r\n')
         [[ -z "$header" ]] && break
