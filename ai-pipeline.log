@@ -2,3 +2,7 @@
 2026-03-11 23:35:47,146 - ai-pipeline.detector - INFO - Detected Stack: {'language': 'Bash', 'language_version': '3.19', 'project_version': '0.1.0', 'base_dir': '', 'tests': './test.sh', 'container': True, 'infrastructure': None, 'cloud': None, 'has_api': False, 'api_spec_path': None, 'scripts': {}, 'security_tools': []}
 2026-03-11 23:35:56,380 - ai-pipeline.detector - INFO - Analyzing stack in .
 2026-03-11 23:35:56,386 - ai-pipeline.detector - INFO - Detected Stack: {'language': 'Bash', 'language_version': '3.19', 'project_version': '0.1.0', 'base_dir': '', 'tests': './test.sh', 'container': True, 'infrastructure': None, 'cloud': None, 'has_api': False, 'api_spec_path': None, 'scripts': {}, 'security_tools': []}
+2026-03-11 23:40:32,664 - ai-pipeline.detector - INFO - Analyzing stack in .
+2026-03-11 23:40:32,671 - ai-pipeline.detector - INFO - Detected Stack: {'language': 'Bash', 'language_version': '3.19', 'project_version': '0.1.0', 'base_dir': '', 'tests': './test.sh', 'container': True, 'infrastructure': None, 'cloud': None, 'has_api': False, 'api_spec_path': None, 'scripts': {}, 'security_tools': []}
+2026-03-11 23:43:10,592 - ai-pipeline.detector - INFO - Analyzing stack in .
+2026-03-11 23:43:10,598 - ai-pipeline.detector - INFO - Detected Stack: {'language': 'Bash', 'language_version': '3.19', 'project_version': '0.1.0', 'base_dir': '', 'tests': './test.sh', 'container': True, 'infrastructure': None, 'cloud': None, 'has_api': False, 'api_spec_path': None, 'scripts': {}, 'security_tools': []}

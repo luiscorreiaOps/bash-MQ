@@ -29,7 +29,10 @@ jobs:
       - name: Install and Test
         run: |
                     chmod +x *.sh
-          cd your-repo
+          npm install
+          npm run build
+          npm run test
+          npm run start
       - name: SonarCloud
         if: env.SONAR_TOKEN != ''
         uses: sonarsource/sonarcloud-github-action@master
