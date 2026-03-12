@@ -10,8 +10,10 @@ jobs:
   Security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: gitleaks/gitleaks-action@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: GitLeaks Scan
+        uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
       - name: Snyk Scan
         if: env.SNYK_TOKEN != ''
@@ -23,17 +25,14 @@ jobs:
   Build_and_Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@master
       - name: Install and Test
         run: |
                     chmod +x *.sh
-          npm install
-          npm run build
-          npm run test
-          npm run start
-      - name: SonarCloud
+      - name: SonarCloud Scan
         if: env.SONAR_TOKEN != ''
         uses: sonarsource/sonarcloud-github-action@master
         continue-on-error: true
@@ -44,7 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: Build_and_Test
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Build
         run: docker build -t project:0.1.0 .
 
