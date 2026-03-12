@@ -1,0 +1,54 @@
+name: CI Pipeline
+on:
+  push:
+    branches: [ main, develop ]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+jobs:
+  Security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+      - name: Snyk Scan
+        if: env.SNYK_TOKEN != ''
+        uses: snyk/actions/bash@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  Build_and_Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@master
+      - name: Install and Test
+        run: |
+                    chmod +x *.sh
+          cd your-repo
+      - name: SonarCloud
+        if: env.SONAR_TOKEN != ''
+        uses: sonarsource/sonarcloud-github-action@master
+        continue-on-error: true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  Docker:
+    runs-on: ubuntu-latest
+    needs: Build_and_Test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t project:0.1.0 .
+
+  Reporting:
+    runs-on: ubuntu-latest
+    needs: Build_and_Test
+    steps:
+      - name: Summary
+        run: |
+          echo '## Project Version: 0.1.0' >> $GITHUB_STEP_SUMMARY
