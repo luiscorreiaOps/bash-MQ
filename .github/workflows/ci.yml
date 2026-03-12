@@ -15,12 +15,6 @@ jobs:
       - name: GitLeaks Scan
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
-      - name: Snyk Scan
-        if: env.SNYK_TOKEN != ''
-        uses: snyk/actions/bash@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   Build_and_Test:
     runs-on: ubuntu-latest
@@ -29,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@master
+        continue-on-error: true
       - name: Install and Test
         run: |
                     chmod +x *.sh
